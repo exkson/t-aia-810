@@ -1,6 +1,6 @@
 from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 
-import torch
+# import torch
 import os
 
 from constants import NLLB_MODEL_NAME

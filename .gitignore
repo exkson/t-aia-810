@@ -1,0 +1,28 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# env
+.env
+
+# coverage
+.coverage
+
+# misc
+.vscode/
+*.log
+*.tmp
+*.sqlite
+ENV
+.ruff_cache
+
+storage/
+docker-compose.yml
+logs
