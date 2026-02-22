@@ -1,17 +1,29 @@
-from starlette.requests import Request
-from starlette.applications import Starlette
-from starlette.responses import JSONResponse
-
-from translate_nllb import translate
-
-app = Starlette()
+from fastapi import FastAPI, Response
+from pydantic import BaseModel
+from constants import SUPPORTED_LANGUAGES
 
 
-@app.route("/translate", methods=["GET"])
-async def translate_endpoint(request: Request):
-    text = request.query_params.get("text", "")
-    lang = request.query_params.get("lang", "en")
-    to = request.query_params.get("to", "fr")
+from google import translate
 
-    translated_text = translate(text, lang, to)
-    return JSONResponse({"translation": translated_text})
+
+app = FastAPI()
+
+
+class TranslationResponse(BaseModel):
+    translation: str
+
+
+@app.get("/api/v1/translate")
+async def translate_endpoint(
+    text: str, lang: str = "fon_Latn", to: str = "fra_Latn"
+) -> TranslationResponse:
+    if lang not in SUPPORTED_LANGUAGES or to not in SUPPORTED_LANGUAGES:
+        return Response(
+            content={
+                "error": "Unsupported language. Supported languages are: "
+                + ", ".join(SUPPORTED_LANGUAGES)
+            },
+            status_code=400,
+        )
+    translated_text = await translate(text, lang, to)
+    return {"translation": translated_text}
