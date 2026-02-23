@@ -6,7 +6,7 @@ from constants import SUPPORTED_LANGUAGES
 from google import translate
 
 
-app = FastAPI()
+app = FastAPI(title="Traduction FON - FRA", version="1.0")
 
 
 class TranslationResponse(BaseModel):
